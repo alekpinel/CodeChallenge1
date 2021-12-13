@@ -6,39 +6,79 @@
   Challenge 3 - The night of the hunter
 '''
 
+def getValue(word, charValues):
+    value = 0
+    for char in word:
+        value += charValues[char]
+    return value
+
 def processCase(case):
     # print (case)
-    pokemons = case['Pokemons']
-    map = case['Map']
+    word1, word2 = case['Words']
+    charValues = case['Values']
 
-    pokemonsToDuplicate = [i for i in pokemons]
-    for pokemon in pokemonsToDuplicate:
-        pokemons.append(pokemon[::-1])
+    value1 = getValue(word1, charValues)
+    value2 = getValue(word2, charValues)
 
-    while len(pokemons) > 0:
-        pokemonsToSearch = [i for i in pokemons]
-        for pokemon in pokemonsToSearch:
-            if (pokemon in map):
-                # print (pokemon + ' is in ' + map)
-                map = map.replace(pokemon, '')
-                pokemons.remove(pokemon)
-                pokemons.remove(pokemon[::-1])
-                # print ('Nuevo map ' + map)
-    return map
+    if (value1 > value2):
+        return word1
+    elif (value2 > value1):
+        return word2
+    else:
+        return '-'
+
+def getFraction(input):
+    if ('/' in input):
+        integer1 = int (input.split('/')[0])
+        integer2 = int (input.split('/')[1])
+        return integer1 / integer2
+    else:
+        return int(input)
+
+def decodifyCase1(input):
+    dict = {}
+    input = input.split('{')[1]
+    input = input.split('}')[0]
+    for value in input.split(','):
+        char = value.split('\'')[1]
+        decimal = getFraction(value.split(':')[1])
+        dict[char] = decimal
+
+    return dict
+
+def decodifyCase2(input):
+    dict = {}
+    input = input.split('[')[1]
+    input = input.split(']')[0]
+    for value in input.split('(')[1:]:
+        value = value.split(')')[0]
+        char = value.split('\'')[1]
+        decimal = getFraction(value.split(',')[1])
+        dict[char] = decimal
+
+    return dict
+
+def decodifyCase3(input):
+    dict = {}
+    for value in input.split(','):
+        char = value.split('=')[0]
+        decimal = getFraction(value.split('=')[1])
+        dict[char] = decimal
+
+    return dict
 
 def readCase(file):
-    P, R, C = [int(i) for i in file.readline().split(" ")]
-    pokemons = []
-    for i in range(P):
-        pokemons.append(file.readline().replace('\n', ''))
+    words, values = file.readline().split("|")
+    words = words.split('-')
 
-    map = ''
-    for i in range(R):
-        for char in file.readline().replace('\n', '').split(" "):
-            map = map + char
+    if (values[0] == '{'):
+        values = decodifyCase1(values)
+    elif (values[0] == '['):
+        values = decodifyCase2(values)
+    else:
+        values = decodifyCase3(values)
 
-    case = {'Pokemons':pokemons, 'Map':map}
-
+    case = {'Words':words, 'Values':values}
     return case
 
 #Get input
@@ -69,15 +109,11 @@ class OutputWriter:
             self.outputfile.write(string)
 
 def main():
-    isSubmit = False
+    testType = 'submit'
     writeFile = True
 
-    if (isSubmit):
-        inputfile = "submitInput"
-        outputfile = "submitOutput"
-    else:
-        inputfile = "testInput"
-        outputfile = "testOutput"
+    inputfile = testType + "Input"
+    outputfile = testType + "Output"
 
     if (not writeFile):
         outputfile = None
