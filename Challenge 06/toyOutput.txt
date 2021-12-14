@@ -1,0 +1,13 @@
+Case #1: jueves
+Case #2: mi�rcoles
+
+Case #3: δευτέρα
+Case #4: chủ nhật
+Case #5: montag
+Case #6: monday
+Case #7: INVALID_LANGUAGE
+Case #8: INVALID_DATE
+Case #9: INVALID_DATE
+Case #10: суббота
+Case #11: dilluns
+Case #12: pondělí

@@ -6,9 +6,6 @@
   Challenge 4 - Let’s build musical scales
 '''
 
-# scale1 = ["A", "A#", "B",  "C",  "C#", "D", "D#", "E",  "F",  "F#", "G", "G#"]
-# scale2 = ["A", "Bb", "Cb", "B#", "Db", "D", "Eb", "Fb", "E#", "Gb", "G", "Ab"]
-
 scale1 = ["A", "A#", "B",  "B#", "C#", "D", "D#", "E",  "E#", "F#", "G", "G#"]
 scale2 = ["A", "Bb", "Cb", "C",  "Db", "D", "Eb", "Fb", "F",  "Gb", "G", "Ab"]
 
