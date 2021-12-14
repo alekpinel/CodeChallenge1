@@ -13,21 +13,55 @@ def getDistance(numbers):
     return distance
 
 def processCase(case):
-    # print (case)
-    bytes = [ord(i) for i in case]
-    print(len(bytes))
-    interestingNumbers = list(filter(lambda value: value >= 127, bytes))
     
-    mandela = ["M", "A", "N", "D", "E", "L", "A"]
-    mandelaBytes = [ord(i) for i in mandela]
+    words = []
+    newWord = True
+    for value in case:
+        if (value > int(127).to_bytes(1, 'big')):
+            if (newWord):
+                words.append([])
+                newWord = False
+            words[-1].append(value)
+        else:
+            newWord = True
     
-    decodified = []
-    for i in range(len(interestingNumbers) - 1):
-        decodified.append(interestingNumbers[i + 1] - interestingNumbers[i])
+    # print(words)
+    numbers = []
+    for word in words:
+        if (len(word) != 4):
+            print('NO 4 BYTES ')
         
-    # print (getDistance(bytes))
+        byteConcatenate = word[0] + word[1] + word[2] + word[3]
+        intWord = int.from_bytes(byteConcatenate, byteorder='big')
+        numbers.append(intWord)
     
-    return None
+    print (f'Code Numbers: {numbers}')
+    
+    mandela = ['M', 'A', 'N', 'D', 'E', 'L', 'A']
+    mandelaBytes = [ord(i) for i in mandela]
+    mandelaDistance = getDistance(mandelaBytes)
+    
+    print (f'Distance of MANDELA: {getDistance(mandelaBytes)}')
+    
+    for i in range(len(numbers) - 1):
+        eureka = True
+        for j in range(len(mandelaDistance) - 1):
+            difference = numbers[i + j + 1] - numbers[i + j]
+            if (difference != mandelaDistance[j]):
+                eureka = False
+                break
+            
+        if (eureka):
+            print('EUREKA')
+            key = ord(mandela[0]) - numbers[i]
+            print(f'The Key is {key}')
+    
+    THE_CODE = ''
+    for number in numbers:
+        char = chr((number + key)%192)
+        THE_CODE += char
+    
+    return THE_CODE
 
 
 def readCase(file):
@@ -61,7 +95,7 @@ class OutputWriter:
             self.outputfile.close()
 
     def __call__(self, output):
-        string = "Case #" + str(self.i + 1) + ": " + str(output) + "\n"
+        string = output
         self.i = self.i + 1
         print(string.replace("\n", ""))
         if (self.outputfile != None):
@@ -70,18 +104,18 @@ class OutputWriter:
 def main():
     writeFile = True
 
-    inputfile = "Invictus2"
+    inputfile = "Invictus"
     outputfile = "Output"
 
     if (not writeFile):
         outputfile = None
 
-    inputs = readInput(inputfile, readCase)
+    inputs1 = readInput(inputfile, readCase)
 
     outputWriter = OutputWriter(outputfile)
-    for input in inputs:
+    for input in inputs1:
         output = processCase(input)
         outputWriter(output)
 
 if __name__ == "__main__":
-    main();
+    main()
