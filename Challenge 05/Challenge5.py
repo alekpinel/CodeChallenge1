@@ -6,21 +6,43 @@
   Challenge 5 - Invictus
 '''
 
+def getDistance(numbers):
+    distance = []
+    for i in range(len(numbers) - 1):
+        distance.append(numbers[i + 1] - numbers[i])
+    return distance
+
 def processCase(case):
-    print (case)
+    # print (case)
+    bytes = [ord(i) for i in case]
+    print(len(bytes))
+    interestingNumbers = list(filter(lambda value: value >= 127, bytes))
     
-    return case
+    mandela = ["M", "A", "N", "D", "E", "L", "A"]
+    mandelaBytes = [ord(i) for i in mandela]
+    
+    decodified = []
+    for i in range(len(interestingNumbers) - 1):
+        decodified.append(interestingNumbers[i + 1] - interestingNumbers[i])
+        
+    # print (getDistance(bytes))
+    
+    return None
 
 
 def readCase(file):
-    case = []
-    for i in range(24):
-        case.append(file.readline())
-    return case
+    chars = []
+    while 1:
+      byte_s = file.read(1)
+      if not byte_s:
+         break
+      chars.append(byte_s)
+      
+    return chars
 
 #Get input
 def readInput(inputfile, caseProcessor):
-    f = open(inputfile + ".txt", "r")
+    f = open(inputfile + ".txt", "rb")
     nCases = 1
     lines = []
     for i in range(nCases):
@@ -46,11 +68,10 @@ class OutputWriter:
             self.outputfile.write(string)
 
 def main():
-    testType = 'test'
     writeFile = True
 
-    inputfile = testType + "Input"
-    outputfile = testType + "Output"
+    inputfile = "Invictus2"
+    outputfile = "Output"
 
     if (not writeFile):
         outputfile = None
