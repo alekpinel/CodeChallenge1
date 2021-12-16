@@ -30,21 +30,39 @@ def processCase(case):
     for hex in case:
         integers.append(int(hex, 16))
     
+    # print (len(integers))
+    
     chars = []
     for integer in integers:
         chars.append(chr(integer))
     
-    # print(chars)
+    chars = []
+    for i in range(0, len(integers), 3):
+        print(integers[i] + ord('R'))
+        print(integers[i+1] + ord('F'))
+        print(integers[i+2] + ord('C'))
+        intValue = (integers[i] + integers[i+1] + integers[i+2])%255
+        chars.append(chr(intValue))
     
-    payload_body = '\x10'
+    print(chars)
     
-    msg_type = '\x08' # ICMP Echo Request
-    msg_code = '\x00' # must be zero
-    msg_checksum_padding = '\x00\x00' # "...with value 0 substituted for this field..."
-    rest_header = '\x00\x57\x00\x89' # from pcap
-    entire_message = msg_type + msg_code + msg_checksum_padding + rest_header + payload_body
-    entire_chk = calculateChecksum(entire_message)
-    print (entire_chk, '{:x}'.format(entire_chk), '(host byte order)')
+    # megaString = ''
+    # for i in range(192):
+    #     possible_word = ''
+    #     for integer in integers:
+    #         possible_word += chr((integer + i)%192)
+    #     # print (possible_word)
+    #     megaString += f'{possible_word}\n'
+    
+    # payload_body = '\x10'
+    
+    # msg_type = '\x08' # ICMP Echo Request
+    # msg_code = '\x00' # must be zero
+    # msg_checksum_padding = '\x00\x00' # "...with value 0 substituted for this field..."
+    # rest_header = '\x00\x57\x00\x89' # from pcap
+    # entire_message = msg_type + msg_code + msg_checksum_padding + rest_header + payload_body
+    # entire_chk = calculateChecksum(entire_message)
+    # print (entire_chk, '{:x}'.format(entire_chk), '(host byte order)')
     
     return None
 
