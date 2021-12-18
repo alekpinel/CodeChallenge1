@@ -3,7 +3,7 @@
   18/12/2021
   Made by Alejandro Pinel Martínez
   Code Challenge
-  Challenge 8 - The crypto bubble
+  Challenge 12 - The crypto bubble
 '''
 
 import numpy as np
