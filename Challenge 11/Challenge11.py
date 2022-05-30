@@ -59,7 +59,6 @@ def countChars(words):
         score += len(word)
     return score
     
-
 def processCase(case):
     N = case['N']
     K = case['K']
@@ -69,7 +68,6 @@ def processCase(case):
     minValue = commonPrefixLengh(words[0], words[-1])
     if (minValue > 0):
         raise ValueError('CASE NOT CONTEMPLED MIN VALUE > 0')
-        
         
     if (K == 1):
         return countChars(words)
@@ -128,7 +126,6 @@ def main():
         outputfile = None
 
     inputs = readInput(inputfile, readCase)
-
 
     outputWriter = OutputWriter(outputfile)
     for input in inputs[0:]:

@@ -1,6 +1,6 @@
 # coding=utf-8
 '''
-  18/12/2021
+  30/05/2022
   Made by Alejandro Pinel Martínez
   Code Challenge
   Challenge 13 - Find the New Earth
@@ -23,12 +23,24 @@
 # Then, I used an online analyser to know the extension of the file
 # https://asecuritysite.com/forensics/file
 
-# It was gzip, so I knew how to read it
+# It was gzip, so I knew how to read it. I extract the content using gzip library
 
+# Then, I have to examinate the file. It contains a fragment from 'Lord of the Rings'
+# But if we look closely enough, we can see some strange symbols
+# [b'\xe2\x80\x8b', b'\xe2\x80\x8c', b'\xe2\x80\x99']
+# The two firsts are blank spaces and the last one is a quote
+
+# I didn't know how to continue from here, so I have to wait until the contest was over
+# and I read the solutions from https://rsilnav.github.io/posts/challenge-13/. Credits to Rafael Sillero!
+
+# With that info, we can go to https://330k.github.io/misc_tools/unicode_steganography.html and copy and paste
+# the fragment with the special character in the 'Binary in Text Steganography Sample' and 
+# We should select only the characters U+200B and U+200C
+# We can download the hidden data and if we read it as a text file we have 424815162342666. Nice!
 
 import binascii
 import gzip
-from crc64iso.crc64iso import crc64, crc64_pair
+import re
 
 #################### RECREATE THE FILE ####################
 
@@ -49,83 +61,61 @@ def writeHex(hexFileName, hexNumbers):
 
 def recreateOriginalFile(inputfile, newFile):
     hexNumbers = readOriginalBytes(inputfile)
-    writeHex(newFile, hexNumbers)
+    writeHex(newFile + '.txt.gz', hexNumbers)
 
-#################### DECODING THE FILE ####################
+#################### EXTRACTING THE FILE ####################
 
 def readGzip(gzipfilename):
-    with gzip.open(gzipfilename + '', 'rb') as f:
+    with gzip.open(gzipfilename, 'rb') as f:
         file_content = f.read()
         # print(file_content)
-        # print(file_content.decode("utf-8") )
+        print(file_content.decode("utf-8") )
     return file_content
 
-def getCoordenates(filename):
-    bytes = readGzip(filename)
-    
-    with open('originalFile', 'rb') as f:
+def extractFile(gzip_filename, text_filename):
+    bytes = readGzip(gzip_filename)
+    f = open(text_filename, "wb")
+    f.write(bytes)
+    f.close()
+    string_file = bytes.decode("utf-8")
+    return string_file
+
+#################### EXAMINATE BYTES ####################
+
+def analyzeBytes(filename):
+    with open(filename, 'rb') as f:
         file_content = f.read()
-        print(hex(binascii.crc32(file_content)))
     
-    
-    print(binascii.crc32(bytes))
-    print(hex(binascii.crc32(bytes)))
-    
-    # print(crc64(bytes.decode("utf-8")))
-    # print(int(crc64(bytes.decode("utf-8")), 16))
-    
-    # print(gzip.compress(bytes).decode("utf-8"))
-    
-    # print(bytes)
-    
-    cleanTest = b''
-    
-    words = []
-    newWord = True
-    for i in range(len(bytes)):
-        # intValue = int.from_bytes(value, "big")
-        value = bytes[i:i+1]
+    words = b''
+    unique_words = []
+    new_word = None
+    for i in range(len(file_content)):
+        value = file_content[i:i+1]
         if (value > int(127).to_bytes(1, 'big')):
-            if (newWord):
-                words.append(bytes[i:i+3])
-                newWord = False
+            if (new_word == None):
+                new_word = file_content[i:i+1]
+            else:
+                new_word += file_content[i:i+1]
         else:
-            newWord = True
-            cleanTest += value
-    
-    strangeWordsCount = {}
-    for word in words:
-        if word not in strangeWordsCount:
-            strangeWordsCount[word] = 0
-        strangeWordsCount[word] += 1
-    print(strangeWordsCount)
-    
-    
-    print(len(words))
-    print(words)
-    badBytes = b''
-    numbers = []
-    hexString = ''
-    for word in words:
-        number = int.from_bytes(word, byteorder='big')
-        numbers.append(number)
-        # code += chr((number)%192)
-        hexString += word.hex()
-        badBytes += word
-        
-    
-    # print(numbers)
-    # print(badBytes)
-    # print(gzip.compress(badBytes))
-    
+            if (new_word is not None):
+                if (new_word not in unique_words):
+                    unique_words.append(new_word)
+                words += new_word
+                new_word = None
+    print('Unique symbols')
+    print(unique_words)
 
 def main():
     inputfile = "here-is-the-position"
-    newFile = "originalFile"
+    newFile_gzip = "originalFile.txt.gz"
+    newFile_txt = "originalFile.txt"
     
     # Recreate the original file
-    recreateOriginalFile(inputfile, newFile)
-    getCoordenates(newFile)
+    recreateOriginalFile(inputfile, newFile_gzip)
+    # Extract the file of the gzip
+    extractFile(newFile_gzip, newFile_txt)
+    # Check the special characters
+    analyzeBytes(newFile_txt)
 
 
 if __name__ == "__main__":

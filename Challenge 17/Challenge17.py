@@ -6,11 +6,13 @@
   Challenge 17 - Super Digger Bros and the bulldozer of infinite buckets
 '''
 
+# When there is only one pile is very easy to know the winner.
+
+
 class Game:
     def __init__(self, piles):
         self.players = ['Edu', 'Alberto']
         self.piles = piles
-
 
     def winnerAnalitic(self):
         initial_result = 1
@@ -38,12 +40,10 @@ class Game:
             else:
                 return self.players[1]
 
-
 def processCase(case):
     game = Game(case)
     winner = game.winnerAnalitic()
     return winner
-
 
 def readCase(file):
     nPiles = int(file.readline())
@@ -89,7 +89,6 @@ def main():
         outputfile = None
 
     inputs = readInput(inputfile, readCase)
-
 
     outputWriter = OutputWriter(outputfile)
     for input in inputs:

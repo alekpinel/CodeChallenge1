@@ -50,13 +50,10 @@ def checkIfWinningLoop(matrices, row, column):
             else:
                 score = checkIfWinningLoop(matrices[:-1], 0, i)
             scores.append(score)
-    
+            
     if (len(scores) > 0):
         return max(scores)
-    
     return 1
-    
-    
 
 def processCase(tradeLines):
     names = extractNames(tradeLines)
@@ -84,12 +81,9 @@ def processCase(tradeLines):
         newmatrix = np.matmul(matrices[-1], matrix)
         matrices.append(newmatrix)
         
-        
         # printMatrix(newmatrix)
         # print(result)
         
-    
-    
     return result
 
 
@@ -143,7 +137,6 @@ def main():
         outputfile = None
 
     inputs = readInput(inputfile, readCase)
-
 
     outputWriter = OutputWriter(outputfile)
     for input in inputs:

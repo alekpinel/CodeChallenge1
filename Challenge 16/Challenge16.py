@@ -237,7 +237,6 @@ class SSHConnecter:
                 return False
             else :
                 # sys.stdout.write(data)
-                
                 msg = sshFunction(data)
                 
                 if (msg == (self.STOP_COMMAND + '\n')):
@@ -252,15 +251,6 @@ def writeOutput(filename, output):
     f.close()
 
 def main():
-    
-    # indices = [6, 15, 28, 38, 52, 54, 57, 61, 62, 64, 73, 75, 82, 87, 94, 97, 99, 13, 32, 77, 34, 19, 84, 22, 9]
-    # original = [45, 52, 80, 58, 60, 2, 78, 9, 47, 4, 62, 84, 37, 94, 67, 69, 85, 90, 43, 8, 55, 17, 22, 38, 34, 100, 33, 5, 35, 98, 44, 41, 87, 11, 72, 18, 6, 7, 95, 92, 91, 25, 48, 39, 88, 86, 31, 93, 65, 36, 32, 83, 50, 53, 46, 70, 73, 64, 82, 40, 3, 29, 57, 97, 77, 12, 21, 96, 63, 51, 74, 81, 79, 15, 89, 99, 19, 75, 10, 30, 16, 59, 27, 23, 42, 68, 71, 28, 49, 56, 66, 26, 54, 13, 14, 24, 61, 20, 1, 76]
-    # for i in indices:
-    #     print(f'{i}: {original[i-1]}')
-    #     if (int(original[i-1]) != 1 and int(original[i-1]) not in PRIMES_100):
-    #         print(f'ERROR IN {i}: {original[i-1]}')
-    # return 
-    
     host = 'codechallenge-daemons.0x14.net'
     port = 7162
     
@@ -268,8 +258,6 @@ def main():
     writeFile = True
     
     output_result = ''
-    
-    # while output_result == '':
     connection = Connection()
     
     ssh = SSHConnecter(host, port)

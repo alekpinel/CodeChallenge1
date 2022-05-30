@@ -12,27 +12,6 @@
 class Pile:
     def __init__(self, N):
         self.pile = N
-        
-    def winner(self):
-        if (self.pile % 3 == 0):
-            result = 1
-        else:
-            result = -1
-        
-        # print(f'Pile {self.pile}: {result}')
-        return result
-    
-    def canBeChanged(self):
-        if (self.pile % 3 == 2):
-            result = 1
-        else:
-            result = 0
-        
-        # print(f'Changeable {self.pile}: {result}')
-        return result
-        
-    
-    
 
 class Game:
     def __init__(self, piles):
@@ -42,33 +21,6 @@ class Game:
         self.piles = []
         for i in piles:
             self.piles.append(Pile(i))
-
-
-    def winnerAnalitic(self):
-        initial_result = 1
-        can_change = 0
-        for pile in self.piles:
-            
-            if (pile % 3 == 0):
-                result = 1
-            else:
-                result = -1
-            
-            initial_result *= result
-            can_change += pile.canBeChanged()
-        
-        can_change = can_change % 2
-        
-        #Player 1 wins
-        if (initial_result < 0):
-            return self.players[0]
-        else:
-            #Player 1 can change the pile
-            if (can_change):
-                return self.players[0]
-            #Player 2 wins
-            else:
-                return self.players[1]
         
     def winnerAlgorithmic(self):
         (m, max_i, max_j) = self.max_alpha_beta(float('-inf'), float('inf'))
@@ -164,13 +116,9 @@ class Game:
     
        return (minv, pile, bucket)
         
-    
-
-
 def processCase(case):
     game = Game(case)
-    winner = game.winnerAnalitic()
-    # winner = game.winnerAlgorithmic()
+    winner = game.winnerAlgorithmic()
     return winner
 
 
@@ -208,8 +156,8 @@ class OutputWriter:
             self.outputfile.write(string)
 
 def main():
-    testType = 'submit'
-    writeFile = True
+    testType = 'toy'
+    writeFile = False
 
     inputfile = testType + "Input"
     outputfile = testType + "Output"

@@ -3,7 +3,7 @@
   15/12/2021
   Made by Alejandro Pinel Martínez
   Code Challenge
-  Challenge 8 - Awesome Sales Inc.!
+  Challenge X - Template
 '''
 
 import socket, select, sys

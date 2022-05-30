@@ -9,9 +9,6 @@
 LAST_VALUE = [1, 1]
 
 def processCase(N):
-    
-    # print(N)
-    
     M = 100000007
     
     if (N > M):
@@ -39,7 +36,6 @@ def processCase(N):
     LAST_VALUE[1] = value
     
     return value
-
 
 def readCase(file):
     N = int(file.readline())
@@ -83,7 +79,6 @@ def main():
         outputfile = None
 
     inputs = readInput(inputfile, readCase)
-
 
     outputWriter = OutputWriter(outputfile)
     for input in inputs:
