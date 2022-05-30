@@ -4,6 +4,8 @@
   Made by Alejandro Pinel Martínez
   Code Challenge
   Challenge 18 - Bit Saver
+  
+  This one didn't pass the submit phase
 '''
 
 import math
@@ -41,33 +43,9 @@ def processCase(program_lines):
             word_list.append(word[0])
             
         frecuencies[word[0]] += 1
-    
-    # print(f'Frecuencies {frecuencies}')
-    
     word_list.sort(key = lambda x: frecuencies[x], reverse=True)
     
     max_bits = max(math.ceil(math.log(len(word_list), 2)) + 1, 1)
-    # print(f'{len(word_list)} {max_bits}')
-    
-    # print(math.log(len(word_list)))
-    # print(math.ceil(math.log(len(word_list))))
-    
-    # assigned_bits = {}
-    # for word in word_list:
-    #     assigned = False
-    #     bits = 1
-    #     while not assigned:
-    #         if (frecuencies[word] * 2**bits > N): #  and bits_used[bits] < 2**bits - 1
-    #             assigned_bits[word] = bits
-    #             # bits_used[bits] += 1
-    #             assigned = True
-    #         bits += 1
-    
-    # results = []
-    # results.append(calculateResult(program_lines, assigned_bits))
-    
-    # print(f'Assigned bits first {assigned_bits}')
-    
     results = []
     assigned_bits = {}
     capacity = 2**max_bits
@@ -85,61 +63,6 @@ def processCase(program_lines):
                     assign(i + 1, bits)
             
     assign(0, 1)
-    
-    # assigned_bits = {}
-    # for word in word_list:
-    #     assigned_bits[word] = max_bits
-    
-    # results = [calculateResult(program_lines, assigned_bits)]
-    
-    # capacity = 2**max_bits
-    
-    # def refine(i, min_bit_to_change):
-    #     if (i == len(word_list)):
-    #         results.append(calculateResult(program_lines, assigned_bits))
-    #     else:
-    #         word = word_list[i]
-    #         original_assignation = assigned_bits[word]
-    #         if (original_assignation > 1):
-    #             # We take it
-    #             if (original_assignation >= min_bit_to_change):
-    #                 assigned_bits[word] -= 1
-    #                 current_capacity = sumAssignations(assigned_bits,max_bits)
-    #                 if (current_capacity <= capacity):
-    #                     refine(i + 1, min_bit_to_change)
-    #                 assigned_bits[word] += 1
-                
-    #             #We don't take it
-    #             refine(i + 1, min_bit_to_change + 1)
-    
-    # refine(0, 0)
-    
-    # capacity = 2**max_bits
-    # word_list.reverse()
-    # for word in word_list:
-    #     original_assignation = assigned_bits[word]
-    #     if (original_assignation > 1):
-    #         assigned_bits[word] -= 1
-    #         current_capacity = sumAssignations(assigned_bits,max_bits)
-    #         if (current_capacity > capacity):
-    #             assigned_bits[word] += 1
-    
-    # results.append(calculateResult(program_lines, assigned_bits))
-    # print(f'Assigned bits second {assigned_bits}')
-    
-    # assigned_bits = assignation_copy.copy()
-    # word_list.reverse()
-    # for word in word_list:
-    #     original_assignation = assigned_bits[word]
-    #     if (original_assignation > 1):
-    #         assigned_bits[word] -= 1
-    #         current_capacity = sumAssignations(assigned_bits,max_bits)
-    #         if (current_capacity > capacity):
-    #             assigned_bits[word] += 1
-    
-    # results.append(calculateResult(program_lines, assigned_bits))
-    # print(f'Assigned bits third {assigned_bits}')
-    
     total, diff = getBestResult(results)
     
     return f'{total}, {diff}'
@@ -181,7 +104,7 @@ class OutputWriter:
             self.outputfile.write(string)
 
 def main():
-    testType = 'submit'
+    testType = 'test'
     writeFile = True
 
     inputfile = testType + "Input"
